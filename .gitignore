@@ -53,3 +53,8 @@ dkms.conf
 
 # debug information files
 *.dwo
+.vscode/tasks.json
+projects/calculator
+.vscode/launch.json
+projects/array_operations/arrayOp
+projects/array_operations/main
