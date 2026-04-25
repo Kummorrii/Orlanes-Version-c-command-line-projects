@@ -292,3 +292,30 @@ void removeFirst(int *array, int *size)
     }
     system("clear");
 }
+
+void locateDataItem(int *array, int *size)
+{
+    int value;
+    system("clear");
+    printf("Enter a value to search in the array: ");
+    if (scanf("%d", &value) != 1)
+    {
+        printError(10);
+        return;
+    }
+    for (int i = 0; i < *size; i++)
+    {
+        if (array[i] == value)
+        {
+            printf("%d was found on array index %d.\n", value, i);
+            getchar();
+            getchar();
+            system("clear");
+            return;
+        }
+    }
+    printf("%d was not found on the array.\n", value);
+    getchar();
+    getchar();
+    system("clear");
+}

@@ -32,6 +32,9 @@ int main()
         case 'F':
             removeFirst(array, &size);
             break;
+        case 'G':
+            locateDataItem(array, &size);
+            break;
         }
     } while (input != 'J');
 }

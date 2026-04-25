@@ -11,4 +11,5 @@ void insertAtPosition(int *array, int *size);
 void insertFirst(int *array, int *size);
 void removeAtPosition(int *array, int *size);
 void removeFirst(int *array, int *size);
+void locateDataItem(int *array, int *size);
 #endif
