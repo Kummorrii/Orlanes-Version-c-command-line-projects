@@ -23,6 +23,8 @@ int main()
         case 'C':
             insertAtPosition(array, &size);
             break;
+        case 'D':
+            insertFirst(array, &size);
         }
     } while (input != 'J');
 }

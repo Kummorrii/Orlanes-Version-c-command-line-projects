@@ -193,3 +193,37 @@ void insertAtPosition(int *array, int *size)
     array[position] = value;
     system("clear");
 }
+
+void insertFirst(int *array, int *size)
+{
+    if (array == NULL)
+    {
+        system("clear");
+        printError(3);
+        return;
+    }
+    int value, *temp = realloc(array, ++*size * sizeof(int));
+
+    if (temp == NULL)
+    {
+        printError(5);
+        return;
+    }
+    else
+    {
+        array = temp;
+        temp = NULL;
+    }
+    system("clear");
+    printf("Integer to insert: ");
+    if (scanf("%d", &value) != 1)
+    {
+        printError(9);
+    }
+    for (int i = *size - 1; i >= 0; i--)
+    {
+        array[i + 1] = array[i];
+    }
+    array[0] = value;
+    system("clear");
+}
