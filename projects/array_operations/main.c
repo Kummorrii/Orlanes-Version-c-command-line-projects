@@ -35,6 +35,24 @@ int main()
         case 'G':
             locateDataItem(array, &size);
             break;
+        case 'H':
+            sortAscending(array, &size);
+            break;
+        case 'I':
+            sortDescending(array, &size);
+            break;
+        case 'J':
+            if (array != NULL)
+            {
+                free(array);
+                array = NULL;
+            }
+            system("clear");
+            puts("Press enter to exit");
+            getchar();
+            getchar();
+            break;
         }
     } while (input != 'J');
+    return 0;
 }

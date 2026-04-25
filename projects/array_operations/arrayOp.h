@@ -12,4 +12,6 @@ void insertFirst(int *array, int *size);
 void removeAtPosition(int *array, int *size);
 void removeFirst(int *array, int *size);
 void locateDataItem(int *array, int *size);
+void sortAscending(int *array, int *size);
+void sortDescending(int *array, int *size);
 #endif
