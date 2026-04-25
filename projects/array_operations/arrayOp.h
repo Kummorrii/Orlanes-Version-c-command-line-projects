@@ -1,9 +1,11 @@
+#include <stdbool.h>
 #ifndef ARRAYOP_H
 #define ARRAYOP_H
 
 void printMainMenu();
-int arraySize();
-int *createArray(int size);
+bool arraySize(int *size);
+int *createArray(int *array, int *size);
 void printError(int code);
-void printArray(int *array, int size);
+void printArray(int *array, int *size);
+void insertAtPosition(int *array, int *size);
 #endif

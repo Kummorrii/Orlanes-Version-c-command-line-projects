@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "arrayOp.h"
+#include <stdbool.h>
 
 void printMainMenu()
 {
@@ -30,44 +31,70 @@ void printError(int code)
     {
     case 1:
         puts("The size of the array must be an integer value.");
+        getchar();
+        getchar();
         break;
 
     case 2:
         puts("The size of the array must be an integer value.");
+        getchar();
+        getchar();
         break;
     case 3:
         puts("Array not found.");
+        getchar();
+        getchar();
+        break;
+    case 4:
+        printf("Array already exist");
+        getchar();
+        getchar();
         break;
     default:
-        puts("Default");
+        puts("An error has occurred.");
+        getchar();
+        getchar();
+        break;
     }
 }
 
-int arraySize()
+bool arraySize(int *size)
 {
+    if (*size > 0)
+    {
+        return false;
+    }
     system("clear");
-    int size;
     printf("Enter the size of the array (>0): ");
-    if (scanf("%d", &size) != 1)
+    if (scanf("%d", size) != 1)
     {
         printError(1);
+        *size = 0;
         system("clear");
-        printMainMenu();
-        return 0;
+        return false;
     }
-    if (size <= 0)
+    if (*size <= 0)
     {
         printError(2);
+        *size = 0;
         system("clear");
-        printMainMenu();
-        return 0;
+        return false;
     }
-    return size;
+    return true;
 }
 
-int *createArray(int size)
+int *createArray(int *array, int *size)
 {
-    int *array = malloc(size * sizeof(int));
+    bool shouldContinue = arraySize(size);
+
+    if (shouldContinue == false)
+    {
+        system("clear");
+        printError(4);
+        return array;
+    }
+
+    array = malloc(*size * sizeof(int));
 
     if (array == NULL)
     {
@@ -75,7 +102,7 @@ int *createArray(int size)
         return NULL;
     }
 
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < *size; i++)
     {
         if (scanf("%d", &array[i]) != 1)
         {
@@ -86,22 +113,40 @@ int *createArray(int size)
     return array;
 }
 
-void printArray(int *array, int size)
+void printArray(int *array, int *size)
 {
     if (array == NULL)
     {
         system("clear");
         printError(3);
-        getchar();
-        getchar();
         return;
     }
     system("clear");
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < *size; i++)
     {
         printf("%d ", array[i]);
     }
     printf("\nPress any key to continue");
     getchar();
     getchar();
+}
+
+void insertAtPosition(int *array, int *size)
+{
+    if (array == NULL)
+    {
+        system("clear");
+        printError(3);
+        return;
+    }
+    int position, value;
+    printf("Position To insert: ");
+    if (scanf("%d", &value) != 1)
+    {
+        printError(4);
+    }
+    for (int i = position; i < *size; i++)
+    {
+        array[i + 1] = array[i];
+    }
 }

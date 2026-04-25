@@ -6,7 +6,7 @@
 int main()
 {
     char input;
-    int *array = NULL, size;
+    int *array = NULL, size = 0;
     do
     {
         printMainMenu();
@@ -15,14 +15,10 @@ int main()
         switch (input)
         {
         case 'A':
-            size = arraySize();
-            if (size > 0)
-            {
-                array = createArray(size);
-            }
+            array = createArray(array, &size);
             break;
         case 'B':
-            printArray(array, size);
+            printArray(array, &size);
             break;
         }
     } while (input != 'J');
