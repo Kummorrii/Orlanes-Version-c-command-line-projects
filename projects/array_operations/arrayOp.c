@@ -50,6 +50,26 @@ void printError(int code)
         getchar();
         getchar();
         break;
+    case 5:
+        printf("Memory allocation failed.");
+        getchar();
+        getchar();
+        break;
+    case 6:
+        printf("Memory reallocation failed.");
+        getchar();
+        getchar();
+        break;
+    case 7:
+        printf("Integer must be greater 0 and less than "); /*Modify this*/
+        getchar();
+        getchar();
+        break;
+    case 8:
+        printf("Position must be greater than 0 and less than N"); /*Modify this*/
+        getchar();
+        getchar();
+        break;
     default:
         puts("An error has occurred.");
         getchar();
@@ -98,7 +118,7 @@ int *createArray(int *array, int *size)
 
     if (array == NULL)
     {
-        puts("Memory allocation failed!");
+        printError(5);
         return NULL;
     }
 
@@ -139,14 +159,37 @@ void insertAtPosition(int *array, int *size)
         printError(3);
         return;
     }
-    int position, value;
-    printf("Position To insert: ");
+    int position, value, *temp = realloc(array, ++*size * sizeof(int));
+
+    if (temp == NULL)
+    {
+        printError(5);
+        return;
+    }
+    else
+    {
+        array = temp;
+        temp = NULL;
+    }
+    system("clear");
+    printf("Position to insert (0-%d): ", *size - 1);
+    if (scanf("%d", &position) != 1)
+    {
+        printError(7);
+    }
+    if (position > *size)
+    {
+        printError(8);
+    }
+    printf("Integer to insert: ");
     if (scanf("%d", &value) != 1)
     {
-        printError(4);
+        printError(9);
     }
-    for (int i = position; i < *size; i++)
+    for (int i = *size - 1; i >= position; i--)
     {
         array[i + 1] = array[i];
     }
+    array[position] = value;
+    system("clear");
 }

@@ -20,6 +20,9 @@ int main()
         case 'B':
             printArray(array, &size);
             break;
+        case 'C':
+            insertAtPosition(array, &size);
+            break;
         }
     } while (input != 'J');
 }
