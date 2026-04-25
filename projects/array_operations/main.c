@@ -25,6 +25,13 @@ int main()
             break;
         case 'D':
             insertFirst(array, &size);
+            break;
+        case 'E':
+            removeAtPosition(array, &size);
+            break;
+        case 'F':
+            removeFirst(array, &size);
+            break;
         }
     } while (input != 'J');
 }

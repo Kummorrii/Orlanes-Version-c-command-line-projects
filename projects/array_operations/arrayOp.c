@@ -227,3 +227,68 @@ void insertFirst(int *array, int *size)
     array[0] = value;
     system("clear");
 }
+
+void removeAtPosition(int *array, int *size)
+{
+    if (array == NULL)
+    {
+        system("clear");
+        printError(3);
+        return;
+    }
+    int position, *temp = realloc(array, --*size * sizeof(int));
+
+    if (temp == NULL)
+    {
+        printError(5);
+        return;
+    }
+    else
+    {
+        array = temp;
+        temp = NULL;
+    }
+    system("clear");
+    printf("Position to remove (0-%d): ", *size);
+    if (scanf("%d", &position) != 1)
+    {
+        printError(7);
+    }
+    if (position > *size)
+    {
+        printError(8);
+    }
+    for (int i = position; i < *size; i++)
+    {
+        array[i] = array[i + 1];
+    }
+    system("clear");
+}
+
+void removeFirst(int *array, int *size)
+{
+    if (array == NULL)
+    {
+        system("clear");
+        printError(3);
+        return;
+    }
+    int *temp = realloc(array, --*size * sizeof(int));
+
+    if (temp == NULL)
+    {
+        printError(5);
+        return;
+    }
+    else
+    {
+        array = temp;
+        temp = NULL;
+    }
+
+    for (int i = 0; i < *size; i++)
+    {
+        array[i] = array[i + 1];
+    }
+    system("clear");
+}
