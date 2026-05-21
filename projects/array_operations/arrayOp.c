@@ -7,7 +7,7 @@ void printMainMenu()
 {
     system("clear");
     printf("\t\t Project in CSIT122-Programming-2\n");
-    printf("\t\t Authored by Jan Bernard L. Abaincia\n");
+    printf("\t\t Authored by %s\n", NAME);
     printf("\t╔═══════════════════════════════════════════════════════╗\n");
     printf("\t║\t\t--Array Operations--\t\t\t║\n");
     printf("\t║\t\tA.) Initialize Array\t\t\t║\n");
@@ -31,48 +31,52 @@ void printError(int code)
     {
     case 1:
         puts("The size of the array must be an integer value.");
-        getchar();
+        while ((getchar()) != '\n')
+            ;
         getchar();
         break;
 
     case 2:
-        puts("The size of the array must be an integer value.");
-        getchar();
+        puts("The size of the array must be greater than zero.");
+        while ((getchar()) != '\n')
+            ;
         getchar();
         break;
+
     case 3:
-        puts("Array not found.");
-        getchar();
+        printf("The size of the array must be less than %d.\n", ARRAY_SIZE_LIMIT);
+        while ((getchar()) != '\n')
+            ;
         getchar();
         break;
     case 4:
-        printf("Array already exist");
-        getchar();
+        puts("The array does not exist.");
+        while ((getchar()) != '\n')
+            ;
         getchar();
         break;
     case 5:
-        printf("Memory allocation failed.");
-        getchar();
+        puts("Memory reallocation failed.");
+        while ((getchar()) != '\n')
+            ;
         getchar();
         break;
     case 6:
-        printf("Memory reallocation failed.");
-        getchar();
+        puts("Invalid position");
+        while ((getchar()) != '\n')
+            ;
         getchar();
         break;
     case 7:
-        printf("Integer must be greater 0 and less than "); /*Modify this*/
-        getchar();
-        getchar();
-        break;
-    case 8:
-        printf("Position must be greater than 0 and less than N"); /*Modify this*/
-        getchar();
+        puts("Must be an integer value");
+        while ((getchar()) != '\n')
+            ;
         getchar();
         break;
     default:
         puts("An error has occurred.");
-        getchar();
+        while ((getchar()) != '\n')
+            ;
         getchar();
         break;
     }
@@ -100,6 +104,12 @@ bool arraySize(int *size)
         system("clear");
         return false;
     }
+    if (*size > ARRAY_SIZE_LIMIT)
+    {
+        printError(3);
+        *size = 0;
+        return false;
+    }
     return true;
 }
 
@@ -109,16 +119,14 @@ int *createArray(int *array, int *size)
 
     if (shouldContinue == false)
     {
-        system("clear");
-        printError(4);
         return array;
     }
 
-    array = malloc(*size * sizeof(int));
+    array = malloc(*size * sizeof(*array));
 
     if (array == NULL)
     {
-        printError(5);
+        printError(4);
         return NULL;
     }
 
@@ -138,7 +146,7 @@ void printArray(int *array, int *size)
     if (array == NULL)
     {
         system("clear");
-        printError(3);
+        printError(4);
         return;
     }
     system("clear");
@@ -147,7 +155,8 @@ void printArray(int *array, int *size)
         printf("%d ", array[i]);
     }
     printf("\nPress any key to continue");
-    getchar();
+    while ((getchar()) != '\n')
+        ;
     getchar();
 }
 
@@ -156,53 +165,78 @@ void insertAtPosition(int *array, int *size)
     if (array == NULL)
     {
         system("clear");
+        printError(4);
+        return;
+    }
+    if (*size + 1 > ARRAY_SIZE_LIMIT)
+    {
+        system("clear");
         printError(3);
         return;
     }
-    int position, value, *temp = realloc(array, ++*size * sizeof(int));
+
+    *size += 1;
+    int position, value, *temp = realloc(array, (*size) * sizeof(*temp));
 
     if (temp == NULL)
     {
         printError(5);
         return;
     }
-    else
-    {
-        array = temp;
-        temp = NULL;
-    }
+    array = temp;
+    temp = NULL;
+
     system("clear");
     printf("Position to insert (0-%d): ", *size - 1);
     if (scanf("%d", &position) != 1)
     {
-        printError(7);
+        printError(6);
+        *size -= 1;
+        int *revert = realloc(array, (*size) * sizeof(*revert));
+        array = revert;
+        return;
     }
-    if (position > *size)
+    if (position > *size - 1)
     {
-        printError(8);
+        printError(6);
+        *size -= 1;
+        int *revert = realloc(array, (*size) * sizeof(*revert));
+        array = revert;
+        return;
     }
     printf("Integer to insert: ");
     if (scanf("%d", &value) != 1)
     {
-        printError(9);
+        printError(7);
+        *size -= 1;
+        int *revert = realloc(array, (*size) * sizeof(*revert));
+        array = revert;
+        return;
     }
     for (int i = *size - 1; i >= position; i--)
     {
         array[i + 1] = array[i];
     }
     array[position] = value;
-    system("clear");
 }
 
 void insertFirst(int *array, int *size)
 {
+    system("clear");
     if (array == NULL)
+    {
+        printError(4);
+        return;
+    }
+    if (*size + 1 > ARRAY_SIZE_LIMIT)
     {
         system("clear");
         printError(3);
         return;
     }
-    int value, *temp = realloc(array, ++*size * sizeof(int));
+
+    *size += 1;
+    int value, *temp = realloc(array, (*size) * sizeof(*temp));
 
     if (temp == NULL)
     {
@@ -214,33 +248,47 @@ void insertFirst(int *array, int *size)
         array = temp;
         temp = NULL;
     }
-    system("clear");
     printf("Integer to insert: ");
     if (scanf("%d", &value) != 1)
     {
-        printError(9);
+        printError(7);
+        *size -= 1;
+        int *revert = realloc(array, (*size) * sizeof(*revert));
+        array = revert;
+        return;
     }
     for (int i = *size - 1; i >= 0; i--)
     {
         array[i + 1] = array[i];
     }
     array[0] = value;
-    system("clear");
 }
 
 void removeAtPosition(int *array, int *size)
 {
+    system("clear");
     if (array == NULL)
     {
-        system("clear");
-        printError(3);
+        printError(4);
         return;
     }
-    int position, *temp = realloc(array, --*size * sizeof(int));
+    if (*size - 1 == 0)
+    {
+        free(array);
+        array = NULL;
+        *size = 0;
+        puts("The array has been deleted because there is no element inside the array.");
+        while ((getchar()) != '\n')
+            ;
+        getchar();
+        return;
+    }
+    *size -= 1;
+    int position, *temp1, *temp = realloc(array, (*size) * sizeof(*temp));
 
     if (temp == NULL)
     {
-        printError(5);
+        printError(4);
         return;
     }
     else
@@ -248,32 +296,55 @@ void removeAtPosition(int *array, int *size)
         array = temp;
         temp = NULL;
     }
-    system("clear");
+    if (*size - 1 == 1)
+    {
+        printf("Position to remove (0): ");
+    }
     printf("Position to remove (0-%d): ", *size);
     if (scanf("%d", &position) != 1)
     {
         printError(7);
+        *size += 1;
+        int *revert = realloc(array, (*size) * sizeof(*revert));
+        array = revert;
+        return;
     }
-    if (position > *size)
+
+    if (position > *size - 1)
     {
-        printError(8);
+        printError(6);
+        *size += 1;
+        int *revert = realloc(array, (*size) * sizeof(*revert));
+        array = revert;
+        return;
     }
     for (int i = position; i < *size; i++)
     {
         array[i] = array[i + 1];
     }
-    system("clear");
 }
 
 void removeFirst(int *array, int *size)
 {
+    system("clear");
     if (array == NULL)
     {
-        system("clear");
-        printError(3);
+        printError(4);
         return;
     }
-    int *temp = realloc(array, --*size * sizeof(int));
+    if (*size - 1 == 0)
+    {
+        free(array);
+        array = NULL;
+        *size = 0;
+        puts("The array has been deleted because there is no element inside the array.");
+        while ((getchar()) != '\n')
+            ;
+        getchar();
+        return;
+    }
+    *size -= 1;
+    int *temp = realloc(array, (*size) * sizeof(int));
 
     if (temp == NULL)
     {
@@ -290,7 +361,6 @@ void removeFirst(int *array, int *size)
     {
         array[i] = array[i + 1];
     }
-    system("clear");
 }
 
 void locateDataItem(int *array, int *size)
@@ -300,7 +370,7 @@ void locateDataItem(int *array, int *size)
     printf("Enter a value to search in the array: ");
     if (scanf("%d", &value) != 1)
     {
-        printError(10);
+        printError(7);
         return;
     }
     for (int i = 0; i < *size; i++)
@@ -308,16 +378,16 @@ void locateDataItem(int *array, int *size)
         if (array[i] == value)
         {
             printf("%d was found on array index %d.\n", value, i);
+            while ((getchar()) != '\n')
+                ;
             getchar();
-            getchar();
-            system("clear");
             return;
         }
     }
     printf("%d was not found on the array.\n", value);
+    while ((getchar()) != '\n')
+        ;
     getchar();
-    getchar();
-    system("clear");
 }
 
 void sortAscending(int *array, int *size)

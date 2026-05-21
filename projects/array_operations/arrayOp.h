@@ -2,6 +2,9 @@
 #ifndef ARRAYOP_H
 #define ARRAYOP_H
 
+#define ARRAY_SIZE_LIMIT 100
+#define NAME "Jan Bernard L. Abaincia"
+
 void printMainMenu();
 bool arraySize(int *size);
 int *createArray(int *array, int *size);

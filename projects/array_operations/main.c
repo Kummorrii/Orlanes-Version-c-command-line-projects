@@ -49,7 +49,7 @@ int main()
             }
             system("clear");
             puts("Press enter to exit");
-            getchar();
+            fflush(stdin);
             getchar();
             break;
         }
