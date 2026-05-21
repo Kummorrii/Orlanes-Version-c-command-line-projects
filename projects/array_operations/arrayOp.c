@@ -3,26 +3,33 @@
 #include "arrayOp.h"
 #include <stdbool.h>
 
+void clearScreen()
+{
+    printf("\e[1;1H\e[2J");
+}
+
 void printMainMenu()
 {
-    system("clear");
-    printf("\t\t Project in CSIT122-Programming-2\n");
-    printf("\t\t Authored by %s\n", NAME);
+    clearScreen();
+    printf(ANSI_BBLUE "\t\t   Project in CSIT122-Programming-2\n" ANSI_RESET);
+    printf(ANSI_BYELLOW "\t\t   Authored by %s\n" ANSI_RESET, NAME);
     printf("\t╔═══════════════════════════════════════════════════════╗\n");
-    printf("\t║\t\t--Array Operations--\t\t\t║\n");
-    printf("\t║\t\tA.) Initialize Array\t\t\t║\n");
-    printf("\t║\t\tB.) Print Array\t\t\t\t║\n");
-    printf("\t║\t\tC.) Insert At Position\t\t\t║\n");
-    printf("\t║\t\tD.) Insert Front\t\t\t║\n");
-    printf("\t║\t\tE.) Remove At Position\t\t\t║\n");
-    printf("\t║\t\tF.) Remove Front\t\t\t║\n");
-    printf("\t║\t\tG.) Locate Data Item\t\t\t║\n");
-    printf("\t║\t\tH.) SortAscending(Bubble Sort)\t\t║\n");
-    printf("\t║\t\tI.) SortDescending(Bubble Sort)\t\t║\n");
-    printf("\t║\t\tJ.) Exit\t\t\t\t║\n");
+    printf("\t║" ANSI_BYELLOW "\t\t~~~Array Operations~~~\t\t" ANSI_RESET "\t║\n");
+    printf("\t║" ANSI_BWHITE "\t\tA.) Initialize Array\t\t" ANSI_RESET "\t║\n");
+    printf("\t║" ANSI_BLUE "\t\tB.) Print Array\t\t\t" ANSI_RESET "\t║\n");
+    printf("\t║" ANSI_YELLOW "\t\tC.) Insert At Position\t\t" ANSI_RESET "\t║\n");
+    printf("\t║" ANSI_MAGENTA "\t\tD.) Insert Front\t\t" ANSI_RESET "\t║\n");
+    printf("\t║" ANSI_CYAN "\t\tE.) Remove At Position\t\t" ANSI_RESET "\t║\n");
+    printf("\t║" ANSI_RED "\t\tF.) Remove Front\t\t" ANSI_RESET "\t║\n");
+    printf("\t║" ANSI_MAGENTA "\t\tG.) Locate Data Item\t\t" ANSI_RESET "\t║\n");
+    printf("\t║" ANSI_WHITE "\t\tH.) SortAscending(Bubble Sort)\t" ANSI_RESET "\t║\n");
+    printf("\t║" ANSI_BGREEN "\t\tI.) SortDescending(Bubble Sort)\t" ANSI_RESET "\t║\n");
+    printf("\t║" ANSI_BRED "\t\tJ.) Exit\t\t\t" ANSI_RESET "\t║\n");
+    printf("\t║\t\t\t\t\t\t\t║\n");
+    printf("\t║\t\tEnter Your Choice (A-J): \t\t║\n");
     printf("\t║\t\t\t\t\t\t\t║\n");
     printf("\t╚═══════════════════════════════════════════════════════╝\n");
-    printf("\t\t\t Enter Your Choice (A-J): ");
+    printf(ANSI_MOVE_TO_FMT, 16, 50);
 }
 
 void printError(int code)
@@ -88,20 +95,20 @@ bool arraySize(int *size)
     {
         return false;
     }
-    system("clear");
+    clearScreen();
     printf("Enter the size of the array (>0): ");
     if (scanf("%d", size) != 1)
     {
         printError(1);
         *size = 0;
-        system("clear");
+        clearScreen();
         return false;
     }
     if (*size <= 0)
     {
         printError(2);
         *size = 0;
-        system("clear");
+        clearScreen();
         return false;
     }
     if (*size > ARRAY_SIZE_LIMIT)
@@ -145,11 +152,11 @@ void printArray(int *array, int *size)
 {
     if (array == NULL)
     {
-        system("clear");
+        clearScreen();
         printError(4);
         return;
     }
-    system("clear");
+    clearScreen();
     for (int i = 0; i < *size; i++)
     {
         printf("%d ", array[i]);
@@ -164,13 +171,13 @@ void insertAtPosition(int *array, int *size)
 {
     if (array == NULL)
     {
-        system("clear");
+        clearScreen();
         printError(4);
         return;
     }
     if (*size + 1 > ARRAY_SIZE_LIMIT)
     {
-        system("clear");
+        clearScreen();
         printError(3);
         return;
     }
@@ -186,7 +193,7 @@ void insertAtPosition(int *array, int *size)
     array = temp;
     temp = NULL;
 
-    system("clear");
+    clearScreen();
     printf("Position to insert (0-%d): ", *size - 1);
     if (scanf("%d", &position) != 1)
     {
@@ -222,7 +229,7 @@ void insertAtPosition(int *array, int *size)
 
 void insertFirst(int *array, int *size)
 {
-    system("clear");
+    clearScreen();
     if (array == NULL)
     {
         printError(4);
@@ -230,7 +237,7 @@ void insertFirst(int *array, int *size)
     }
     if (*size + 1 > ARRAY_SIZE_LIMIT)
     {
-        system("clear");
+        clearScreen();
         printError(3);
         return;
     }
@@ -266,7 +273,7 @@ void insertFirst(int *array, int *size)
 
 void removeAtPosition(int *array, int *size)
 {
-    system("clear");
+    clearScreen();
     if (array == NULL)
     {
         printError(4);
@@ -326,7 +333,7 @@ void removeAtPosition(int *array, int *size)
 
 void removeFirst(int *array, int *size)
 {
-    system("clear");
+    clearScreen();
     if (array == NULL)
     {
         printError(4);
@@ -366,7 +373,7 @@ void removeFirst(int *array, int *size)
 void locateDataItem(int *array, int *size)
 {
     int value;
-    system("clear");
+    clearScreen();
     printf("Enter a value to search in the array: ");
     if (scanf("%d", &value) != 1)
     {
