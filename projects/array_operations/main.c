@@ -21,16 +21,16 @@ int main()
             printArray(array, &size);
             break;
         case 'C':
-            insertAtPosition(array, &size);
+            insertAtPosition(&array, &size);
             break;
         case 'D':
-            insertFirst(array, &size);
+            insertFirst(&array, &size);
             break;
         case 'E':
-            removeAtPosition(array, &size);
+            removeAtPosition(&array, &size);
             break;
         case 'F':
-            removeFirst(array, &size);
+            removeFirst(&array, &size);
             break;
         case 'G':
             locateDataItem(array, &size);

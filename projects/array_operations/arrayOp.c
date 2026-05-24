@@ -174,9 +174,9 @@ void printArray(int *array, int *size)
     getchar();
 }
 
-void insertAtPosition(int *array, int *size)
+void insertAtPosition(int **array, int *size)
 {
-    if (array == NULL)
+    if (*array == NULL)
     {
         clearScreen();
         printError(4);
@@ -190,14 +190,14 @@ void insertAtPosition(int *array, int *size)
     }
 
     *size += 1;
-    int position, value, *temp = realloc(array, (*size) * sizeof(*temp));
+    int position, value, *temp = realloc(*array, (*size) * sizeof(*temp));
 
     if (temp == NULL)
     {
         printError(5);
         return;
     }
-    array = temp;
+    *array = temp;
     temp = NULL;
 
     clearScreen();
@@ -206,16 +206,16 @@ void insertAtPosition(int *array, int *size)
     {
         printError(6);
         *size -= 1;
-        int *revert = realloc(array, (*size) * sizeof(*revert));
-        array = revert;
+        int *revert = realloc(*array, (*size) * sizeof(*revert));
+        *array = revert;
         return;
     }
     if (position > *size - 1)
     {
         printError(6);
         *size -= 1;
-        int *revert = realloc(array, (*size) * sizeof(*revert));
-        array = revert;
+        int *revert = realloc(*array, (*size) * sizeof(*revert));
+        *array = revert;
         return;
     }
     printf("Integer to insert: ");
@@ -223,21 +223,21 @@ void insertAtPosition(int *array, int *size)
     {
         printError(7);
         *size -= 1;
-        int *revert = realloc(array, (*size) * sizeof(*revert));
-        array = revert;
+        int *revert = realloc(*array, (*size) * sizeof(*revert));
+        *array = revert;
         return;
     }
     for (int i = *size - 1; i >= position; i--)
     {
-        array[i + 1] = array[i];
+        *array[i + 1] = *array[i];
     }
-    array[position] = value;
+    *array[position] = value;
 }
 
-void insertFirst(int *array, int *size)
+void insertFirst(int **array, int *size)
 {
     clearScreen();
-    if (array == NULL)
+    if (*array == NULL)
     {
         printError(4);
         return;
@@ -250,7 +250,7 @@ void insertFirst(int *array, int *size)
     }
 
     *size += 1;
-    int value, *temp = realloc(array, (*size) * sizeof(*temp));
+    int value, *temp = realloc(*array, (*size) * sizeof(*temp));
 
     if (temp == NULL)
     {
@@ -259,7 +259,7 @@ void insertFirst(int *array, int *size)
     }
     else
     {
-        array = temp;
+        *array = temp;
         temp = NULL;
     }
     printf("Integer to insert: ");
@@ -267,29 +267,29 @@ void insertFirst(int *array, int *size)
     {
         printError(7);
         *size -= 1;
-        int *revert = realloc(array, (*size) * sizeof(*revert));
-        array = revert;
+        int *revert = realloc(*array, (*size) * sizeof(*revert));
+        *array = revert;
         return;
     }
     for (int i = *size - 1; i >= 0; i--)
     {
-        array[i + 1] = array[i];
+        *array[i + 1] = *array[i];
     }
-    array[0] = value;
+    *array[0] = value;
 }
 
-void removeAtPosition(int *array, int *size)
+void removeAtPosition(int **array, int *size)
 {
     clearScreen();
-    if (array == NULL)
+    if (*array == NULL)
     {
         printError(4);
         return;
     }
     if (*size - 1 == 0)
     {
-        free(array);
-        array = NULL;
+        free(*array);
+        *array = NULL;
         *size = 0;
         puts("The array has been deleted because there is no element inside the array.");
         while ((getchar()) != '\n')
@@ -298,7 +298,7 @@ void removeAtPosition(int *array, int *size)
         return;
     }
     *size -= 1;
-    int position, *temp1, *temp = realloc(array, (*size) * sizeof(*temp));
+    int position, *temp1, *temp = realloc(*array, (*size) * sizeof(*temp));
 
     if (temp == NULL)
     {
@@ -307,7 +307,7 @@ void removeAtPosition(int *array, int *size)
     }
     else
     {
-        array = temp;
+        *array = temp;
         temp = NULL;
     }
     if (*size - 1 == 1)
@@ -319,8 +319,8 @@ void removeAtPosition(int *array, int *size)
     {
         printError(7);
         *size += 1;
-        int *revert = realloc(array, (*size) * sizeof(*revert));
-        array = revert;
+        int *revert = realloc(*array, (*size) * sizeof(*revert));
+        *array = revert;
         return;
     }
 
@@ -328,28 +328,28 @@ void removeAtPosition(int *array, int *size)
     {
         printError(6);
         *size += 1;
-        int *revert = realloc(array, (*size) * sizeof(*revert));
-        array = revert;
+        int *revert = realloc(*array, (*size) * sizeof(*revert));
+        *array = revert;
         return;
     }
     for (int i = position; i < *size; i++)
     {
-        array[i] = array[i + 1];
+        *array[i] = *array[i + 1];
     }
 }
 
-void removeFirst(int *array, int *size)
+void removeFirst(int **array, int *size)
 {
     clearScreen();
-    if (array == NULL)
+    if (*array == NULL)
     {
         printError(4);
         return;
     }
     if (*size - 1 == 0)
     {
-        free(array);
-        array = NULL;
+        free(*array);
+        *array = NULL;
         *size = 0;
         puts("The array has been deleted because there is no element inside the array.");
         while ((getchar()) != '\n')
@@ -358,7 +358,7 @@ void removeFirst(int *array, int *size)
         return;
     }
     *size -= 1;
-    int *temp = realloc(array, (*size) * sizeof(int));
+    int *temp = realloc(*array, (*size) * sizeof(int));
 
     if (temp == NULL)
     {
@@ -367,13 +367,13 @@ void removeFirst(int *array, int *size)
     }
     else
     {
-        array = temp;
+        *array = temp;
         temp = NULL;
     }
 
     for (int i = 0; i < *size; i++)
     {
-        array[i] = array[i + 1];
+        *array[i] = *array[i + 1];
     }
 }
 
