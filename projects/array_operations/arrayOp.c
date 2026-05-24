@@ -3,6 +3,10 @@
 #include "arrayOp.h"
 #include <stdbool.h>
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 void clearScreen()
 {
     printf("\e[1;1H\e[2J");
@@ -10,6 +14,9 @@ void clearScreen()
 
 void printMainMenu()
 {
+#ifdef _WIN32
+    SetConsoleOutputCP(CP_UTF8);
+#endif
     clearScreen();
     printf(ANSI_BBLUE "\t\t   Project in CSIT122-Programming-2\n" ANSI_RESET);
     printf(ANSI_BYELLOW "\t\t   Authored by %s\n" ANSI_RESET, NAME);
